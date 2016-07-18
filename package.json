@@ -1,0 +1,25 @@
+{
+  "name": "ichabod-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "bin": {
+    "ich": "./bin/ich"
+  },
+  "author": "David Street",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3",
+    "mock-fs": "^3.11.0"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "inflection": "^1.10.0",
+    "inquirer": "^1.1.2"
+  }
+}

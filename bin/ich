@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+/**
+ * ich
+ * ---
+ */
+
+'use strict'
+
+const program = require('commander')
+const pkg     = require('../package')
+
+program
+	.version(pkg.version)
+	.usage('[options] <command> [<args>]')
+	.command('init [project-name]', 'Initialize a new Ichabod project')
+	.command('coll <collection-name>', 'Create a new collection definition')
+	.command('type [type-name]', 'Create a new type definition')
+	.command('manage', 'Manage the current Ichabod instance')
+	.parse(process.argv)

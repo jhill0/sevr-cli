@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+/**
+ * ich-coll
+ * ---
+ * Create a new collection definition.
+ */
+
+'use strict'
+
+const chalk   = require('chalk')
+const program = require('commander')
+const coll    = require('../lib/coll')
+
+program
+    .version('0.0.1')
+    .usage('<collection-name>')
+    .parse(process.argv)
+
+coll(program.args)
+    .then(name => {
+        console.log(chalk.green('Successfully created collection', name))
+    })
+    .catch(err => {
+        console.log(chalk.red(err))
+    })
