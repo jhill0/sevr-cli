@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+/**
+ * ich-manage
+ * ---
+ */
+
+'use strict'
+
+const program = require('commander')
+const vantage = require('vantage')()
+
+program
+	.option('-h, --host [host]', 'Remote host', '127.0.0.1')
+	.option('-p, --port [port]', 'Remote host port')
+	.option('-U, --user [user]', 'Remote user')
+	.option('-P, --password [password]', 'Remote user password')
+	.parse(process.argv)
+
+let vantageArgs = []
+
+if (program.user) {
+	vantageArgs = vantageArgs.concat(['-u', program.user])
+}
+
+if (program.password) {
+	vantageArgs = vantageArgs.concat(['-p', program.password])
+}
+
+if (program.port) {
+	vantageArgs = vantageArgs.concat([`${program.host}:${program.port}`])
+}
+
+vantage.show()
+vantage.connect(program.host, program.port)
+	.then((err) => {
+
+	})
