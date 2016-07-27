@@ -14,7 +14,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^2.5.3",
-    "mock-fs": "^3.11.0"
+    "mock-fs": "^3.11.0",
+    "std-mocks": "^1.0.1"
   },
   "dependencies": {
     "chalk": "^1.1.3",
