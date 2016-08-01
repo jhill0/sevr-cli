@@ -1,7 +1,16 @@
 {
   "name": "ichabod-cli",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Command line interface for the Ichabod CMS Framework",
+  "keywords": [
+      "ichabod",
+      "cli",
+      "command line",
+      "cms",
+      "content management",
+      "mongodb",
+      "mongoose"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "mocha test/**/*.test.js"
