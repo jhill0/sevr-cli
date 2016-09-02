@@ -7,6 +7,7 @@ const Collections = require('./lib/manage/commands/collections')
 const Create      = require('./lib/manage/commands/create')
 const Remove      = require('./lib/manage/commands/remove')
 const Update      = require('./lib/manage/commands/update')
+const remoteAuth  = require('./lib/remote-auth')
 
 module.exports = (ichabod, _config) => {
 	const config = _.merge({}, {}, _config)
@@ -41,6 +42,7 @@ module.exports = (ichabod, _config) => {
 
 
 		vantage
+			.auth(remoteAuth, {ichabod})
 			.delimiter('ichabod-remote$')
 			.listen(4000)
 	})
