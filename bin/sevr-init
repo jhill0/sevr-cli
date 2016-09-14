@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * ich-init
+ * sevr-init
  * ---
- * Initialize a new Ichabod project. Generates the boilerplate `index.js` file,
+ * Initialize a new Sevr project. Generates the boilerplate `index.js` file,
  * which loads and starts the app. It creates necessary directories for
  * collections, types, and config. Lastly, it generates a base `package.json`
  * with all initial dependencies.

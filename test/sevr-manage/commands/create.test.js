@@ -4,7 +4,7 @@
 const chai        = require('chai')
 const spies       = require('chai-spies')
 const VorpalMock  = require('../../mocks/vorpal')
-const IchabodMock = require('../../mocks/ichabod')
+const SevrMock    = require('../../mocks/sevr')
 const Create      = require('../../../lib/manage/commands/create')
 
 const expect = chai.expect
@@ -13,23 +13,23 @@ chai.use(spies)
 
 describe('create', function() {
 	it('should return a promise', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {},
 			coll2: {},
 			coll3: {}
 		})
 		const vorpal = new VorpalMock()
-		const cmd = Create(ichabod).bind(vorpal)
+		const cmd = Create(sevr).bind(vorpal)
 
 		expect(cmd()).to.be.instanceof(Promise)
 	})
 
 	it('should reject if collection not found', function(done) {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {}
 		})
 		const vorpal = new VorpalMock()
-		const cmd = Create(ichabod).bind(vorpal)
+		const cmd = Create(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll2'
 		}
@@ -45,7 +45,7 @@ describe('create', function() {
 	})
 
 	it('should prompt for each of the document fields', function(done) {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {
 				fields: {
 					title: { label: 'Title', type: String, name: 'title' },
@@ -55,13 +55,13 @@ describe('create', function() {
 			}
 		}, {})
 		const vorpal = new VorpalMock()
-		const cmd = Create(ichabod).bind(vorpal)
+		const cmd = Create(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll1',
 			options: {}
 		}
 
-		ichabod.collections['coll1'].setFieldTypes({
+		sevr.collections['coll1'].setFieldTypes({
 			title: ['title', 'String'],
 			body: ['body', 'String']
 		})
@@ -87,7 +87,7 @@ describe('create', function() {
 	})
 
 	it('should create a new document with the provied values', function(done) {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {
 				fields: {
 					title: { label: 'Title', type: String, name: 'title' },
@@ -103,12 +103,12 @@ describe('create', function() {
 		})
 
 		const vorpal = new VorpalMock()
-		const cmd = Create(ichabod).bind(vorpal)
+		const cmd = Create(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll1',
 			options: {}
 		}
-		const coll = ichabod.collections['coll1']
+		const coll = sevr.collections['coll1']
 
 		coll.setFieldTypes({
 			title: ['title', 'String'],

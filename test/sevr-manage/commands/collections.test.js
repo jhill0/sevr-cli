@@ -4,7 +4,7 @@
 const chai        = require('chai')
 const spies       = require('chai-spies')
 const VorpalMock  = require('../../mocks/vorpal')
-const IchabodMock = require('../../mocks/ichabod')
+const SevrMock    = require('../../mocks/sevr')
 const Collections = require('../../../lib/manage/commands/collections')
 
 const expect = chai.expect
@@ -13,25 +13,25 @@ chai.use(spies)
 
 describe('collections', function() {
 	it('should return a promise', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {},
 			coll2: {},
 			coll3: {}
 		})
 		const vorpal = new VorpalMock()
-		const cmd = Collections(ichabod).bind(vorpal)
+		const cmd = Collections(sevr).bind(vorpal)
 
 		expect(cmd()).to.be.instanceof(Promise)
 	})
 
-	it('should log all collections available for the ichabod instance', function() {
-		const ichabod = new IchabodMock({
+	it('should log all collections available for the sevr instance', function() {
+		const sevr = new SevrMock({
 			coll1: {},
 			coll2: {},
 			coll3: {}
 		})
 		const vorpal = new VorpalMock()
-		const cmd = Collections(ichabod).bind(vorpal)
+		const cmd = Collections(sevr).bind(vorpal)
 
 		const spy = chai.spy.on(vorpal, 'log')
 

@@ -9,41 +9,41 @@ const Remove      = require('./lib/manage/commands/remove')
 const Update      = require('./lib/manage/commands/update')
 const remoteAuth  = require('./lib/remote-auth')
 
-module.exports = (ichabod, _config) => {
+module.exports = (sevr, _config) => {
 	const config = _.merge({}, {}, _config)
 
-	ichabod.events.on('db-ready', () => {
+	sevr.events.on('db-ready', () => {
 
 		// collections
 		vantage
 			.command('collections', 'List the available collections')
-			.action(Collections(ichabod))
+			.action(Collections(sevr))
 
 		// find
 		vantage
 			.command('find <collection> [query]', 'Search for documents within a collection')
-			.action(Find(ichabod))
+			.action(Find(sevr))
 
 		// create
 		vantage
 			.command('create <collection>', 'Create a new document within a collection')
-			.action(Create(ichabod))
+			.action(Create(sevr))
 
 		// update
 		vantage
 			.command('update <collection> [query]', 'Update a document within a collection')
 			.option('-s, --select [select]', 'Select fields (comma seperated)')
-			.action(Update(ichabod))
+			.action(Update(sevr))
 
 		// delete
 		vantage
 			.command('delete <collection> [query]', 'Delete documents within a collection')
-			.action(Remove(ichabod))
+			.action(Remove(sevr))
 
 
 		vantage
-			.auth(remoteAuth, {ichabod})
-			.delimiter('ichabod-remote$')
+			.auth(remoteAuth, {sevr})
+			.delimiter('sevr-remote$')
 			.listen(4000)
 	})
 }

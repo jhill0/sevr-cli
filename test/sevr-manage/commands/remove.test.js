@@ -1,11 +1,11 @@
 /*eslint-env node, mocha */
 'use strict'
 
-const chai        = require('chai')
-const spies       = require('chai-spies')
-const VorpalMock  = require('../../mocks/vorpal')
-const IchabodMock = require('../../mocks/ichabod')
-const Update      = require('../../../lib/manage/commands/update')
+const chai       = require('chai')
+const spies      = require('chai-spies')
+const VorpalMock = require('../../mocks/vorpal')
+const SevrMock   = require('../../mocks/sevr')
+const Remove     = require('../../../lib/manage/commands/remove')
 
 const expect = chai.expect
 
@@ -13,23 +13,23 @@ chai.use(spies)
 
 describe('update', function() {
 	it('should return a promise', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {},
 			coll2: {},
 			coll3: {}
 		})
 		const vorpal = new VorpalMock()
-		const cmd = Update(ichabod).bind(vorpal)
+		const cmd = Remove(sevr).bind(vorpal)
 
 		expect(cmd()).to.be.instanceof(Promise)
 	})
 
 	it('should reject if collection not found', function(done) {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {}
 		})
 		const vorpal = new VorpalMock()
-		const cmd = Update(ichabod).bind(vorpal)
+		const cmd = Remove(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll2'
 		}
@@ -45,11 +45,11 @@ describe('update', function() {
 	})
 
 	it('should log and exit if no documents found', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {}
 		}, {})
 		const vorpal = new VorpalMock()
-		const cmd = Update(ichabod).bind(vorpal)
+		const cmd = Remove(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll1',
 			options: {}
@@ -65,12 +65,12 @@ describe('update', function() {
 	})
 
 	it('should convert a string-based query to an object that mongoose understands', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {}
 		}, {})
 		const vorpal = new VorpalMock()
-		const cmd = Update(ichabod).bind(vorpal)
-		const coll = ichabod.collections['coll1']
+		const cmd = Remove(sevr).bind(vorpal)
+		const coll = sevr.collections['coll1']
 		const promises = []
 
 		chai.spy.on(coll, 'read')
@@ -98,8 +98,8 @@ describe('update', function() {
 	})
 
 	it('should display a prompt showing the number of found documents and ask' +
-		' the user to select a document', function(done) {
-		const ichabod = new IchabodMock({
+		' the user to select documents', function(done) {
+		const sevr = new SevrMock({
 			coll1: {
 				fields: {
 					title: { label: 'Title', type: String, name: 'title' },
@@ -115,13 +115,13 @@ describe('update', function() {
 		})
 
 		const vorpal = new VorpalMock()
-		const cmd = Update(ichabod).bind(vorpal)
+		const cmd = Remove(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll1',
 			options: {}
 		}
 
-		ichabod.collections['coll1'].setFieldTypes({
+		sevr.collections['coll1'].setFieldTypes({
 			title: ['title', 'String'],
 			body: ['body', 'String']
 		})
@@ -132,9 +132,9 @@ describe('update', function() {
 		cmd(args)
 		setTimeout(() => {
 			expect(vorpal.prompt).to.have.been.called.with({
-				type: 'list',
-				name: 'documentIndex',
-				message: 'Select the document to update (2 found):',
+				type: 'checkbox',
+				name: 'items',
+				message: 'Select the document(s) to delete (2 found):',
 				choices: [
 					{ name: 'test1', value: 0 },
 					{ name: 'test2', value: 1 }
@@ -144,8 +144,8 @@ describe('update', function() {
 		}, 10)
 	})
 
-	it('should prompt to update each of the document fields', function(done) {
-		const ichabod = new IchabodMock({
+	it('should delete a single selected document', function() {
+		const sevr = new SevrMock({
 			coll1: {
 				fields: {
 					title: { label: 'Title', type: String, name: 'title' },
@@ -161,81 +161,39 @@ describe('update', function() {
 		})
 
 		const vorpal = new VorpalMock()
-		const cmd = Update(ichabod).bind(vorpal)
+		const cmd = Remove(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll1',
 			options: {}
 		}
-
-		ichabod.collections['coll1'].setFieldTypes({
-			title: ['title', 'String'],
-			body: ['body', 'String']
-		})
-
-		vorpal.setNextPromptResults({ documentIndex: 0 })
-		chai.spy.on(vorpal, 'prompt')
-
-		cmd(args)
-		setTimeout(() => {
-			expect(vorpal.prompt).to.have.been.called.with([
-				{
-					name: 'title',
-					message: 'Title: ',
-					default: ['test1'],
-					type: 'input'
-				},
-				{
-					name: 'body',
-					message: 'Body: ',
-					default: ['test body'],
-					type: 'input'
-				}
-			])
-			done()
-		}, 10)
-	})
-
-	it('should update the document with the new values', function(done) {
-		const ichabod = new IchabodMock({
-			coll1: {
-				fields: {
-					title: { label: 'Title', type: String, name: 'title' },
-					body: { label: 'Body', type: String, name: 'body' }
-				},
-				defaultField: 'title'
-			}
-		}, {
-			coll1: [
-				{ _id: 0, title: 'test1', body: 'test body' },
-				{ _id: 1, title: 'test2', body: 'test body2' }
-			]
-		})
-
-		const vorpal = new VorpalMock()
-		const cmd = Update(ichabod).bind(vorpal)
-		const args = {
-			collection: 'coll1',
-			options: {}
-		}
-		const coll = ichabod.collections['coll1']
+		const coll = sevr.collections['coll1']
 
 		coll.setFieldTypes({
 			title: ['title', 'String'],
 			body: ['body', 'String']
 		})
 
-		vorpal.setNextPromptResults({ documentIndex: 0 })
-		vorpal.setNextPromptResults({ title: 'updatedTitle', body: 'updated body' })
+		chai.spy.on(coll, 'delById')
 
-		chai.spy.on(coll, 'updateById')
+		return Promise.resolve()
+			.then(() => {
+				vorpal.setNextPromptResults({ items: [0] })
+				vorpal.setNextPromptResults({ confirm: true })
 
-		cmd(args)
-		setTimeout(() => {
-			expect(coll.updateById).to.have.been.called.with({
-				title: 'updatedTitle',
-				body: 'updated body'
-			}, 0)
-			done()
-		}, 10)
+				return cmd(args)
+			})
+			.then(() => {
+				return expect(coll.delById).to.have.been.called.with(0)
+			})
+			.then(() => {
+				vorpal.setNextPromptResults({ items: [0, 1] })
+				vorpal.setNextPromptResults({ confirm: true })
+
+				return cmd(args)
+			})
+			.then(() => {
+				expect(coll.delById).to.have.been.called.with(0)
+				expect(coll.delById).to.have.been.called.with(1)
+			})
 	})
 })

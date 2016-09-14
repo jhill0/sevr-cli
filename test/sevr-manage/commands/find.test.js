@@ -1,12 +1,12 @@
 /*eslint-env node, mocha */
 'use strict'
 
-const chai        = require('chai')
-const spies       = require('chai-spies')
-const chalk       = require('chalk')
-const VorpalMock  = require('../../mocks/vorpal')
-const IchabodMock = require('../../mocks/ichabod')
-const Find        = require('../../../lib/manage/commands/find')
+const chai       = require('chai')
+const spies      = require('chai-spies')
+const chalk      = require('chalk')
+const VorpalMock = require('../../mocks/vorpal')
+const SevrMock   = require('../../mocks/sevr')
+const Find       = require('../../../lib/manage/commands/find')
 
 const expect = chai.expect
 
@@ -14,23 +14,23 @@ chai.use(spies)
 
 describe('find', function() {
 	it('should return a promise', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {},
 			coll2: {},
 			coll3: {}
 		})
 		const vorpal = new VorpalMock()
-		const cmd = Find(ichabod).bind(vorpal)
+		const cmd = Find(sevr).bind(vorpal)
 
 		expect(cmd()).to.be.instanceof(Promise)
 	})
 
 	it('should reject if collection not found', function(done) {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {}
 		})
 		const vorpal = new VorpalMock()
-		const cmd = Find(ichabod).bind(vorpal)
+		const cmd = Find(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll2'
 		}
@@ -46,11 +46,11 @@ describe('find', function() {
 	})
 
 	it('should log and exit if no documents found', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {}
 		}, {})
 		const vorpal = new VorpalMock()
-		const cmd = Find(ichabod).bind(vorpal)
+		const cmd = Find(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll1'
 		}
@@ -65,12 +65,12 @@ describe('find', function() {
 	})
 
 	it('should convert a string-based query to an object that mongoose understands', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {}
 		}, {})
 		const vorpal = new VorpalMock()
-		const cmd = Find(ichabod).bind(vorpal)
-		const coll = ichabod.collections['coll1']
+		const cmd = Find(sevr).bind(vorpal)
+		const coll = sevr.collections['coll1']
 		const promises = []
 
 		chai.spy.on(coll, 'read')
@@ -99,7 +99,7 @@ describe('find', function() {
 
 	it('should display a prompt showing the number of found documents and ask' +
 		' the user to select a document', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {
 				fields: {
 					title: { label: 'Title', type: String },
@@ -115,7 +115,7 @@ describe('find', function() {
 		})
 
 		const vorpal = new VorpalMock()
-		const cmd = Find(ichabod).bind(vorpal)
+		const cmd = Find(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll1'
 		}
@@ -138,7 +138,7 @@ describe('find', function() {
 	})
 
 	it('should log each of the fields for the selected document', function() {
-		const ichabod = new IchabodMock({
+		const sevr = new SevrMock({
 			coll1: {
 				fields: {
 					title: { label: 'Title', type: String },
@@ -154,7 +154,7 @@ describe('find', function() {
 		})
 
 		const vorpal = new VorpalMock()
-		const cmd = Find(ichabod).bind(vorpal)
+		const cmd = Find(sevr).bind(vorpal)
 		const args = {
 			collection: 'coll1'
 		}

@@ -1,9 +1,9 @@
 {
-  "name": "ichabod-cli",
+  "name": "sevr-cli",
   "version": "0.1.0",
-  "description": "Command line interface for the Ichabod CMS Framework",
+  "description": "Command line interface for the Sevr CMS Framework",
   "keywords": [
-      "ichabod",
+      "sevr",
       "cli",
       "command line",
       "cms",
@@ -16,7 +16,16 @@
     "test": "mocha test/**/*.test.js"
   },
   "bin": {
-    "ich": "./bin/ich"
+    "sevr": "./bin/sevr"
+  },
+  "files": [
+    "index.js",
+    "lib",
+    "bin"
+  ],
+  "repository": {
+     "type": "git",
+     "url": "git@github.com:ExclamationLabs/sevr-cli.git" 
   },
   "author": "David Street",
   "license": "MIT",

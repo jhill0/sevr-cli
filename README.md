@@ -1,18 +1,18 @@
-# Ichabod CLI
+# Sevr CLI
 ---
 
 ## Usage
 
 ```
-Usage: ich [options] <command> [<args>]
+Usage: sevr [options] <command> [<args>]
 
 
 Commands:
 
-  init [project-name]     Initialize a new Ichabod project
+  init [project-name]     Initialize a new Sevr project
   coll <collection-name>  Create a new collection definition
   type [type-name]        Create a new type definition
-  manage                  Manage the current Ichabod instance
+  manage                  Manage the current Sevr instance
   help [cmd]              display help for [cmd]
 
 Options:
@@ -23,10 +23,10 @@ Options:
 
 
 ### init
-Create a new Ichabod project
+Create a new Sevr project
 
 ```
-Usage: ich init [project-name]
+Usage: sevr init [project-name]
 
  Options:
 
@@ -35,10 +35,10 @@ Usage: ich init [project-name]
 
 
 ### coll
-Add a new collection to an Ichabod project
+Add a new collection to an Sevr project
 
 ```
-Usage: ich coll <collection-name>
+Usage: sevr coll <collection-name>
 
 Options:
 
@@ -48,10 +48,10 @@ Options:
 
 
 ### type
-Add a new type to an Ichabod project
+Add a new type to an Sevr project
 
 ```
-Usage: ich type [options] <collection-name>
+Usage: sevr type [options] <collection-name>
 
 Options:
 
@@ -61,10 +61,10 @@ Options:
 
 
 ### manage
-Remotely manage an Ichabod instance
+Remotely manage an Sevr instance
 
 ```
-Usage: ich manage [options]
+Usage: sevr manage [options]
 
   Options:
 
@@ -105,16 +105,16 @@ by default.
 ---
 
 ## Remote Connection
-In order to use the `manage` CLI interface, the Ichabod instance must include
-the CLI plugin. By default, this is included when using `ich init` to create
+In order to use the `manage` CLI interface, the Sevr instance must include
+the CLI plugin. By default, this is included when using `sevr init` to create
 a project.
 
 To include the plugin manually, add the following to your index.js:
 
 ```javascript
-const cli = require('ichabod-cli')
+const cli = require('sevr-cli')
 
-ichabod.attach(cli, options)
+sevr.attach(cli, options)
 ```
 
 By default, the plugin will listen for connections on port 4000.
