@@ -1,15 +1,15 @@
 {
   "name": "sevr-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Command line interface for the Sevr CMS Framework",
   "keywords": [
-      "sevr",
-      "cli",
-      "command line",
-      "cms",
-      "content management",
-      "mongodb",
-      "mongoose"
+    "sevr",
+    "cli",
+    "command line",
+    "cms",
+    "content management",
+    "mongodb",
+    "mongoose"
   ],
   "main": "index.js",
   "scripts": {
@@ -24,8 +24,8 @@
     "bin"
   ],
   "repository": {
-     "type": "git",
-     "url": "git@github.com:ExclamationLabs/sevr-cli.git" 
+    "type": "git",
+    "url": "git@github.com:ExclamationLabs/sevr-cli.git"
   },
   "author": "David Street",
   "license": "MIT",
