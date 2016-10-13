@@ -9,41 +9,45 @@ const Remove      = require('./lib/manage/commands/remove')
 const Update      = require('./lib/manage/commands/update')
 const remoteAuth  = require('./lib/remote-auth')
 
-module.exports = (sevr, _config) => {
-	const config = _.merge({}, {}, _config)
+class SevrRemote {
+	constructor(sevr, config) {
+		this.sevr = sevr
+		this.config = _.merge({}, {}, config)
+	}
 
-	sevr.events.on('db-ready', () => {
-
+	run() {
 		// collections
 		vantage
 			.command('collections', 'List the available collections')
-			.action(Collections(sevr))
+			.action(Collections(this.sevr))
 
 		// find
 		vantage
 			.command('find <collection> [query]', 'Search for documents within a collection')
-			.action(Find(sevr))
+			.action(Find(this.sevr))
 
 		// create
 		vantage
 			.command('create <collection>', 'Create a new document within a collection')
-			.action(Create(sevr))
+			.action(Create(this.sevr))
 
 		// update
 		vantage
 			.command('update <collection> [query]', 'Update a document within a collection')
 			.option('-s, --select [select]', 'Select fields (comma seperated)')
-			.action(Update(sevr))
+			.action(Update(this.sevr))
 
 		// delete
 		vantage
 			.command('delete <collection> [query]', 'Delete documents within a collection')
-			.action(Remove(sevr))
+			.action(Remove(this.sevr))
 
 
 		vantage
-			.auth(remoteAuth, {sevr})
+			.auth(remoteAuth, { sevr: this.sevr })
 			.delimiter('sevr-remote$')
 			.listen(4000)
-	})
+	}
 }
+
+module.exports = SevrRemote
