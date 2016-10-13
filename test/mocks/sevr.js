@@ -29,6 +29,10 @@ const CollectionMock = function(def, data) {
 
 		getFields() { return def.fields },
 
+		create(data) {
+			return Promise.resolve(data)
+		},
+
 		read(query, selection) {
 			return Promise.resolve(
 				data.map(doc => {
