@@ -17,4 +17,5 @@ program
 	.command('coll <collection-name>', 'Create a new collection definition')
 	.command('type [type-name]', 'Create a new type definition')
 	.command('manage', 'Manage the current Sevr instance')
+	.command('start', 'Start a Sevr instance')
 	.parse(process.argv)

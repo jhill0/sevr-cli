@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+/**
+ * sevr-start
+ * ---
+ * Start an instance of Sevr
+ */
+
+const program  = require('commander')
+const start    = require('../lib/start')
+
+program
+	.usage('[options]')
+	.option('-p, --path [path]', 'Path to Sevr instance')
+	.option('-r, --reset', 'Force a global reset')
+	.parse(process.argv)
+
+start(program)
