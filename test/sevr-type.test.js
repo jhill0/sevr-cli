@@ -9,7 +9,7 @@ const type     = require('../lib/type')
 
 const expect = chai.expect
 
-describe('ich-type <name>', function() {
+describe('sevr-type <name>', function() {
 	beforeEach(function() {
 		mock()
 	})

@@ -9,7 +9,7 @@ const init     = require('../lib/init')
 
 const expect = chai.expect
 
-describe('ich-init [name]', function() {
+describe('sevr-init [name]', function() {
 	beforeEach(function() {
 		mock()
 	})

@@ -9,7 +9,7 @@ const coll     = require('../lib/coll')
 
 const expect = chai.expect
 
-describe('ich-coll <name>', function() {
+describe('sevr-coll <name>', function() {
 	beforeEach(function() {
 		mock()
 	})
