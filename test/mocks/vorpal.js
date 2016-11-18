@@ -14,9 +14,9 @@ module.exports = function(verbose) {
 			if (verbose) console.log(msg)
 		},
 
-		prompt(opts, cb) {
+		prompt(opts) {
 			if (verbose) console.log(opts)
-			cb(nextPromptResults.shift())
+			return Promise.resolve(nextPromptResults.shift())
 		}
 	}
 }
