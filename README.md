@@ -1,4 +1,7 @@
 # Sevr CLI
+
+[![Build Status](https://travis-ci.org/ExclamationLabs/sevr-cli.svg?branch=master)](https://travis-ci.org/ExclamationLabs/sevr-cli)
+
 ---
 
 ## Usage
